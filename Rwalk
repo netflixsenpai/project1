@@ -1,0 +1,58 @@
+import java.util.*;
+import java.awt.*;
+public class Rwalk {
+  public static final int PANSIZE = 500;
+  public static final boolean DEBUG = false;
+  public static void main(String[] args) {
+    DrawingPanel panel = new DrawingPanel(PANSIZE, PANSIZE);
+    Graphics g = panel.getGraphics();
+    Scanner console = new Scanner(System.in);
+    Random rand = new Random();
+    System.out.println("Hello! This program outputs a randomized walk, and shows how many movement ");
+    System.out.println("steps it takes to reach an exit. ");
+    singleWalk(g, console, rand, panel);
+  }
+  public static void singleWalk(Graphics g, Scanner console, Random rand, DrawingPanel panel) {
+    System.out.print("Please input a Step Size: ");
+    int step = console.nextInt();
+    System.out.print("Please input a radius: ");
+    int radius = console.nextInt();
+    g.setColor(Color.BLACK);
+    g.drawOval((250 - radius), (250 - radius), radius * 2, radius * 2);
+    int y = 250;
+    int x = 250;
+    int y1 = 250;
+    int x1 = 250;
+    int count = 0;
+    do {
+      int d = rand.nextInt(4); // 0 = north, 1 = east, 2 = south, 3 = west
+      if (d == 1) {
+        y1 += step;
+      } else if (d == 2) {
+        x1 += step;
+      } else if (d == 3) {
+        y1 -= step;
+      } else {
+        x1 -= step;
+      }
+      g.fillRect(x1, y1, step, step);
+      x = x1;
+      y = y1;
+      count += 1;
+    } while (Math.pow(x - PANSIZE / 2, 2) + Math.pow(y - PANSIZE / 2, 2) < Math.pow(radius, 2));
+    panel.sleep(5);
+    System.out.println("You took " + count + " steps!");
+    System.out.print("Do you want to restart this program?");
+    String quest = console.nextLine();
+    quest.toLowerCase();
+    if (quest.charAt(1) == 'y') {
+      System.out.print("Woo!");
+    } else {
+      System.out.print("Goodbye!.");
+    }
+  }
+}
+
+
+
+
